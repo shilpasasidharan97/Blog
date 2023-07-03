@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "web",
     "froala_editor",
+    "rest_framework",
+    
 
 ]
 
