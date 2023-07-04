@@ -30,3 +30,11 @@ def blog_details(request):
 
 def category(request):
     return render(request, 'web/category.html')
+
+
+def blog_list(request):
+    return render(request,  'web/blog_list.html')
+
+
+def edit_blog(request):
+    return render(request, 'web/edit_blog.html')
