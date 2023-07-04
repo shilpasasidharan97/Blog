@@ -74,8 +74,9 @@ class RegisterView(APIView):
                 response['message'] = 'username  already taken'
                 raise Exception('username  already taken')
 
-            user_obj = User.objects.create(email=data.get('username'),
-                                           username=data.get('username'))
+            user_obj = User.objects.create(username=data.get('username'),first_name=data.get('first_name'),last_name=data.get('first_name'),
+                                           email = data.get('email'),phone=data.get('phone'))
+            print(user_obj)
             user_obj.set_password(data.get('password'))
             user_obj.save()
             # token = generate_random_string(20)
