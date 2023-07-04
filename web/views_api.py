@@ -69,7 +69,7 @@ class RegisterView(APIView):
                 response['message'] = 'key password not found'
                 raise Exception('key password not found')
             check_user = User.objects.filter(
-                username=data.get('username')).first()
+                username=data.get('username')).first()   
             if check_user:
                 response['message'] = 'username  already taken'
                 raise Exception('username  already taken')
@@ -78,7 +78,7 @@ class RegisterView(APIView):
                                            username=data.get('username'))
             user_obj.set_password(data.get('password'))
             user_obj.save()
-            token = generate_random_string(20)
+            # token = generate_random_string(20)
             # set verified user
             # Profile.objects.create(user=user_obj, token=token,
             #                        is_verified=True)

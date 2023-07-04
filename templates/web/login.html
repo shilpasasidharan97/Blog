@@ -32,15 +32,15 @@
                     <div class="section-heading heading-dark">
                         <h2 class="item-heading">LOGIN FORM</h2>
                     </div>
-                    <form class="login-form">
+                    <div class="login-form">
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="mb-3">Username or Email Address</label>
-                                <input class="main-input-box" type="text" placeholder="" />
+                                <input class="main-input-box" type="text" id="loginUsername" placeholder="" />
                             </div>
                             <div class="col-md-6">
                                 <label class="mb-3">Password</label>
-                                <input class="main-input-box" type="password" placeholder="" />
+                                <input class="main-input-box" type="password" id="loginPassword" placeholder="" />
                             </div>
                         </div>
                         <div class="row">
@@ -55,10 +55,10 @@
                             </div>
                         </div>
                         <div class="btn-area">
-                            <button class="btn-fill btn-primary" type="submit" value="Login">Login<i class="flaticon-next"></i></button>
+                            <button class="btn-fill btn-primary" type="submit" value="Login" onclick="login()">Login<i class="flaticon-next"></i></button>
                             <a href="{% url 'web:register_view' %}" class="btn-fill btn-dark" type="submit" value="Login">Creat an Accont<i class="flaticon-next"></i></a>
                         </div>
-                    </form>
+                    </div>
                     <label>Or Connect With Social Networks</label>
                     <div class="login-box-social">
                         <ul>

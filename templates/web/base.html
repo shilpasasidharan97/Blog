@@ -33,6 +33,8 @@
 </head>
 
 <body>
+    <input type="hidden" id="csrf" value="{{csrf_token}}">
+
     <!-- Preloader Start Here -->
     <!-- <div id="preloader"></div> -->
     
@@ -73,6 +75,17 @@
                         <div class="col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center justify-content-end">
                             <div class="nav-action-elements-layout1">
                                 <ul>
+                                    {% if request.user.is_authenticated %}
+                                    <li>
+                                        <a type="button" class="login-btn" href="{% url 'web:logout_view' %}">
+                                            <i class="flaticon-profile"></i>Logout
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="fill-btn"><i class="flaticon-plus-1"></i>SUBMIT
+                                            RECIPE</a>
+                                    </li>
+                                    {% else %}
                                     <li>
                                         <a type="button" class="login-btn" href="{% url 'web:login_view' %}">
                                             <i class="flaticon-profile"></i>Login
@@ -82,6 +95,7 @@
                                         <a href="{% url 'web:login_view' %}" class="fill-btn"><i class="flaticon-plus-1"></i>SUBMIT
                                             RECIPE</a>
                                     </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                             <div class="mob-menu-open toggle-menu">
@@ -173,6 +187,7 @@
     </div>
 
 
+    <script src="{% static 'js/script.js' %}"></script>
     <!-- Jquery Js -->
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <!-- Bootstrap Js -->
