@@ -60,10 +60,10 @@
                             <nav class="site-nav">
                                 <ul id="site-menu" class="site-menu">
                                     <li>
-                                        <a href="#">Home</a>
+                                        <a href="{% url 'web:home' %}">Home</a>
                                     </li>
                                     <li>
-                                        <a href="">Category</a>
+                                        <a href="{% url 'web:category' %}">Category</a>
                                     </li>
                                     <li>
                                         <a href="#">Recipes</a>
@@ -82,7 +82,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="" class="fill-btn"><i class="flaticon-plus-1"></i>SUBMIT
+                                        <a href="{% url 'web:add_blog' %}" class="fill-btn"><i class="flaticon-plus-1"></i>SUBMIT
                                             RECIPE</a>
                                     </li>
                                     {% else %}
