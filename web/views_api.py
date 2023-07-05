@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-# from .models import Profile
+from .models import Profile
 from .helpers import *
 from django.contrib.auth import authenticate, login
 
@@ -30,9 +30,9 @@ class LoginView(APIView):
                 response['message'] = 'invalid username , user not found'
                 raise Exception('invalid username not found')
 
-            # if not Profile.objects.filter(user=check_user).first().is_verified:
-            #     response['message'] = 'your profile is not verified'
-            #     raise Exception('profile not verified')
+            if not Profile.objects.filter(user=check_user).first().is_verified:
+                response['message'] = 'your profile is not verified'
+                raise Exception('profile not verified')
 
             user_obj = authenticate(username=data.get('username'),
                                     password=data.get('password'))
@@ -69,20 +69,19 @@ class RegisterView(APIView):
                 response['message'] = 'key password not found'
                 raise Exception('key password not found')
             check_user = User.objects.filter(
-                username=data.get('username')).first()   
+                username=data.get('username')).first()
             if check_user:
                 response['message'] = 'username  already taken'
                 raise Exception('username  already taken')
 
-            user_obj = User.objects.create(username=data.get('username'),first_name=data.get('first_name'),last_name=data.get('first_name'),
-                                           email = data.get('email'),phone=data.get('phone'))
-            print(user_obj)
+            user_obj = User.objects.create(email=data.get('username'),
+                                           username=data.get('username'))
             user_obj.set_password(data.get('password'))
             user_obj.save()
-            # token = generate_random_string(20)
+            token = generate_random_string(20)
             # set verified user
-            # Profile.objects.create(user=user_obj, token=token,
-            #                        is_verified=True)
+            Profile.objects.create(user=user_obj, token=token,
+                                   is_verified=True)
             # send_mail_to_user(token , data.get('username'))
             response['message'] = 'User created '
             response['status'] = 200

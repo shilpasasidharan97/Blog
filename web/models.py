@@ -13,6 +13,9 @@ class Profile(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=225)
 
+    def __str__(self):
+        return self.title
+
 
 class Recipe(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)

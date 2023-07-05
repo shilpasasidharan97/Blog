@@ -12,8 +12,8 @@ def generate_random_string(N):
 
 def generate_slug(text):
     new_slug = slugify(text)
-    from web.models import BlogModel
+    from web.models import Recipe
 
-    if BlogModel.objects.filter(slug=new_slug).first():
+    if Recipe.objects.filter(slug=new_slug).first():
         return generate_slug(text + generate_random_string(5))
     return new_slug
