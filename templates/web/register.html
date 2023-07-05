@@ -1,0 +1,208 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- Inne Page Banner Area Start Here -->
+<section class="inner-page-banner bg-common" data-bg-image="{% static 'img/figure/inner-page-banner1.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumbs-area">
+                    <h1>Register Page</h1>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>Login</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Login Area Start Here -->
+<section class="login-page-wrap padding-top-80 padding-bottom-50">
+    <div class="container">
+        <div class="row gutters-60">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="login-box-layout1">
+                    <div class="section-heading heading-dark">
+                        <h2 class="item-heading">Register FORM</h2>
+                    </div>
+                    <form class="login-form" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="mb-3">First Name</label>
+                                <input class="main-input-box" id="first_name" type="text" placeholder="" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="mb-3">Last Name</label>
+                                <input class="main-input-box" id="last_name" type="text" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="mb-3">Email </label>
+                                <input class="main-input-box" id="email" type="email" placeholder="" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="mb-3">Phone Number</label>
+                                <input class="main-input-box" id="phone" type="text" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="mb-3">Username </label>
+                                <input class="main-input-box" type="text" id="loginUsername" placeholder="" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="mb-3">Password</label>
+                                <input class="main-input-box" type="password" id="loginPassword" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="btn-area">
+                            <button class="btn-fill btn-primary"  onclick="Signup()">Submit<i class="flaticon-next"></i></button>
+                        </div>
+                    </form>
+                    <label>Or Connect With Social Networks</label>
+                    <div class="login-box-social">
+                        <ul>
+                            <li><a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#" class="twitter"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#" class="linkedin"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="#" class="google"><i class="fab fa-google-plus-g"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1 sidebar-widget-area sidebar-break-md">
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Modal styles */
+.modal {
+  display: none; /* Hide the modal by default */
+  position: fixed; /* Fixed position to overlay the page */
+  z-index: 1; /* Set the modal to be on top of other elements */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scrolling if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black semi-transparent background */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* Adjust vertical and horizontal position */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style>
+
+<!-- modal -->
+<!-- Modal -->
+<div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Registration Successful!</h3>
+      <p>Thank you for registering. You can now access your account.</p>
+    </div>
+  </div>
+  
+
+
+<script>
+    function Signup() {
+  var username = document.getElementById('loginUsername').value;
+  var password = document.getElementById('loginPassword').value;
+  var first_name = document.getElementById('first_name').value;
+  var last_name = document.getElementById('last_name').value;
+  var email = document.getElementById('email').value;
+  var phone = document.getElementById('phone').value;
+  var csrf = document.getElementById('csrf').value;
+
+  if (username === '' || password === '') {
+    alert('You must enter both username and password');
+    return;
+  }
+
+  var data = {
+    username: username,
+    password: password,
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    phone: phone
+  };
+
+  fetch('/api/register/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf
+    },
+    body: JSON.stringify(data)
+  }).then(result => result.json())
+    .then(response => {
+        if (response.status == 200) {
+            // Registration successful
+            // Show the success modal
+            var modal = document.getElementById("successModal");
+            var span = document.getElementsByClassName("close")[0];
+            modal.style.display = "block";
+
+            // Close the modal when the user clicks on the close button
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // Close the modal when the user clicks anywhere outside the modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        } else {
+            // Registration failed
+            alert(response.message);
+        }
+    });
+}
+
+</script>
+
+
+
+
+
+
+
+{% endblock %}
+
