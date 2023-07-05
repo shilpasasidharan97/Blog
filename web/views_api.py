@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -74,17 +75,18 @@ class RegisterView(APIView):
                 response['message'] = 'username  already taken'
                 raise Exception('username  already taken')
 
-            user_obj = User.objects.create(email=data.get('username'),
+            user_obj = User.objects.create(email=data.get('email'),
                                            username=data.get('username'))
             user_obj.set_password(data.get('password'))
             user_obj.save()
             token = generate_random_string(20)
             # set verified user
-            Profile.objects.create(user=user_obj, token=token,
-                                   is_verified=True)
+            Profile.objects.create(user=user_obj, email=data.get('email'), first_name=data.get('first_name'), last_name=data.get('last_name'),
+                                   phone=data.get('phone'), token=token, is_verified=True)
             # send_mail_to_user(token , data.get('username'))
             response['message'] = 'User created '
             response['status'] = 200
+        
         except Exception as e:
             print(e)
 
